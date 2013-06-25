@@ -152,6 +152,10 @@
       return size;
     };
 
+    PriorityQueue.prototype.lookup = function(key) {
+      return this._elements[this._index[key]];
+    };
+
     PriorityQueue.prototype.change_key = function(key, val) {
       var c, cmp;
       c = this._index[key];
