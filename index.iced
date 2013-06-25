@@ -91,6 +91,10 @@ exports.PriorityQueue = class PriorityQueue
 
   #---------------
 
+  lookup : (key) -> @_elements[@_index[key]]
+
+  #---------------
+
   change_key : (key, val) ->
     c = @_index[key]
     if not c? then throw new Error "Key #{key} not found"
