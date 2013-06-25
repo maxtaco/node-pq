@@ -1,0 +1,32 @@
+{
+  "name": "pq2",
+  "version": "0.0.1",
+  "description": "Priority queue w/ decrease key operation, good for Dijkstra's algorithm",
+  "author": "Max Krohn <themax@gmail.com>",
+  "devDependencies": {
+    "mocha": "*",
+    "expect.js": "*",
+    "iced-coffee-script" : "*"
+  },
+  "readmeFilename": "README.md",
+  "main": "index.js",
+  "dependencies": {
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/maxtaco/pq.git"
+  },
+  "keywords": [
+    "heap",
+    "priority",
+    "queue",
+    "priority queue",
+    "data structure",
+    "Dijkstra",
+    "decrease key"
+  ],
+  "license": "MIT"
+}
