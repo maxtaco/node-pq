@@ -138,12 +138,20 @@ describe('PriorityQueue()', function() {
       expect(queue.size()).to.be(4);
     });
 
-    it('decreases keys properly', function () {
+    it('changes keys properly', function () {
       var queue = new PriorityQueue();
       push_all(queue);
-      queue.decrease_key('yando',-3000);
+      queue.change_key('yando',-3000);
       expect(queue.deq().key).to.be('yando');
       expect(queue.deq().key).to.be('fran');
+      queue.change_key('valentina', 1000000);
+      expect(queue.deq().key).to.be('zombie');
+      expect(queue.deq().key).to.be('jano');
+      expect(queue.deq().key).to.be('frank');
+      expect(queue.deq().key).to.be('georgi');
+      expect(queue.deq().key).to.be('albert');
+      expect(queue.deq().key).to.be('valentina');
+      expect(queue.is_empty()).to.be(true);
     });
   });
 

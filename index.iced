@@ -54,26 +54,30 @@ exports.PriorityQueue = class PriorityQueue
     @_set j, tmp
     i
 
+  #---------------
+
   _bubble_up : (c) ->
     c = @_swap(p, c) while (c > 0) and @_i_cmp((p = @_parent c), c) > 0
     true
+
+  _bubble_down : (c) -> 
+    size = @size()
+    while 0 <= c < size
+      min = c
+      min = l if (l = @_lchild c) < size and @_i_cmp(l, min) < 0
+      min = r if (r = @_rchild c) < size and @_i_cmp(r, min) < 0
+      if min is c then c = -1
+      else c = @_swap min, c
 
   #---------------
 
   deq : () ->
     first = @peek()
     last = @_elements.pop()
-    size = @size()
     delete @_index[@_get_key first]
-    if size > 0
-      c = 0
-      @_set c, last
-      while 0 <= c < size
-        min = c
-        min = l if (l = @_lchild c) < size and @_i_cmp(l, min) < 0
-        min = r if (r = @_rchild c) < size and @_i_cmp(r, min) < 0
-        if min is c then c = -1
-        else c = @_swap min, c
+    unless @is_empty()
+      @_set 0, last
+      @_bubble_down 0
     first
 
   #---------------
@@ -87,11 +91,16 @@ exports.PriorityQueue = class PriorityQueue
 
   #---------------
 
-  decrease_key : (key, val) ->
+  change_key : (key, val) ->
     c = @_index[key]
     if not c? then throw new Error "Key #{key} not found"
-    else if @_cmp(val, @_i_get_pri(c)) > 0 then throw new Error "key increased!"
+    cmp = @_cmp val, @_i_get_pri c
     @_i_set_pri c, val
-    @_bubble_up c
+    if cmp > 0
+      console.log "bubble down V"
+      @_bubble_down c
+    else
+      console.log "bubble up!"
+      @_bubble_up c
 
 ##=============================================================

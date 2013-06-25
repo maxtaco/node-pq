@@ -110,29 +110,35 @@
       return true;
     };
 
+    PriorityQueue.prototype._bubble_down = function(c) {
+      var l, min, r, size, _results;
+      size = this.size();
+      _results = [];
+      while ((0 <= c && c < size)) {
+        min = c;
+        if ((l = this._lchild(c)) < size && this._i_cmp(l, min) < 0) {
+          min = l;
+        }
+        if ((r = this._rchild(c)) < size && this._i_cmp(r, min) < 0) {
+          min = r;
+        }
+        if (min === c) {
+          _results.push(c = -1);
+        } else {
+          _results.push(c = this._swap(min, c));
+        }
+      }
+      return _results;
+    };
+
     PriorityQueue.prototype.deq = function() {
-      var c, first, l, last, min, r, size;
+      var first, last;
       first = this.peek();
       last = this._elements.pop();
-      size = this.size();
       delete this._index[this._get_key(first)];
-      if (size > 0) {
-        c = 0;
-        this._set(c, last);
-        while ((0 <= c && c < size)) {
-          min = c;
-          if ((l = this._lchild(c)) < size && this._i_cmp(l, min) < 0) {
-            min = l;
-          }
-          if ((r = this._rchild(c)) < size && this._i_cmp(r, min) < 0) {
-            min = r;
-          }
-          if (min === c) {
-            c = -1;
-          } else {
-            c = this._swap(min, c);
-          }
-        }
+      if (!this.is_empty()) {
+        this._set(0, last);
+        this._bubble_down(0);
       }
       return first;
     };
@@ -146,16 +152,21 @@
       return size;
     };
 
-    PriorityQueue.prototype.decrease_key = function(key, val) {
-      var c;
+    PriorityQueue.prototype.change_key = function(key, val) {
+      var c, cmp;
       c = this._index[key];
       if (c == null) {
         throw new Error("Key " + key + " not found");
-      } else if (this._cmp(val, this._i_get_pri(c)) > 0) {
-        throw new Error("key increased!");
       }
+      cmp = this._cmp(val, this._i_get_pri(c));
       this._i_set_pri(c, val);
-      return this._bubble_up(c);
+      if (cmp > 0) {
+        console.log("bubble down V");
+        return this._bubble_down(c);
+      } else {
+        console.log("bubble up!");
+        return this._bubble_up(c);
+      }
     };
 
     return PriorityQueue;
