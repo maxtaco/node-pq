@@ -1,2 +1,2 @@
 global.expect = require('expect.js');
-global.PriorityQueue = require('..');
+global.PriorityQueue = require('..').PriorityQueue;

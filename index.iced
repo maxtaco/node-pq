@@ -1,7 +1,7 @@
 
 ##=============================================================
 
-class PriorityQueue
+exports.PriorityQueue = class PriorityQueue
 
   _cmp     : (a,b) -> (a - b)
   _get_key : (a)   -> a.key
@@ -10,7 +10,8 @@ class PriorityQueue
 
   #---------------
 
-  constructor : ({cmp, get_key, get_pri, set_pri}) ->
+  constructor : (opts = {}) ->
+    {cmp, get_key, get_pri, set_pri} = opts
     @_cmp = cmp if cmp?
     @_get_key = key if key?
     @_set_pri = set_pri if set_pri?
@@ -43,17 +44,18 @@ class PriorityQueue
   #---------------
   
   _indexify : (i) -> @_index[@_i_get_key i] = i
+  _set : (i, val) -> 
+    @_elements[i] = val
+    @_indexify i
 
   _swap : (i,j) ->
     tmp = @_elements[i]
-    @_elements[i] = @_elements[j]
-    @_elements[j] = tmp    
-    @_indexify i
-    @_indexify j
+    @_set i, @_elements[j]
+    @_set j, tmp
     i
 
   _bubble_up : (c) ->
-    p = @_swap(p, c) while (c > 0) and @_i_cmp((p = @_parent c), c) > 0
+    c = @_swap(p, c) while (c > 0) and @_i_cmp((p = @_parent c), c) > 0
     true
 
   #---------------
@@ -63,13 +65,15 @@ class PriorityQueue
     last = @_elements.pop()
     size = @size()
     delete @_index[@_get_key first]
-    c = 0
-    while 0 <= c < size
-      min = c
-      min = l if (l = @_lchild c) < size and @_i_cmp(l, min) < 0
-      min = r if (r = @_rchild c) < size and @_i_cmp(r, min) < 0
-      if min is c then c = -1
-      else c = @_swap min, c
+    if size > 0
+      c = 0
+      @_set c, last
+      while 0 <= c < size
+        min = c
+        min = l if (l = @_lchild c) < size and @_i_cmp(l, min) < 0
+        min = r if (r = @_rchild c) < size and @_i_cmp(r, min) < 0
+        if min is c then c = -1
+        else c = @_swap min, c
     first
 
   #---------------
@@ -79,6 +83,7 @@ class PriorityQueue
     current = size - 1
     @_indexify current
     @_bubble_up current
+    size
 
   #---------------
 
@@ -88,6 +93,5 @@ class PriorityQueue
     else if @_cmp(val, @_i_get_pri(c)) > 0 then throw new Error "key increased!"
     @_i_set_pri c, val
     @_bubble_up c
-
 
 ##=============================================================
