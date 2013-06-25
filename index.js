@@ -158,18 +158,17 @@
 
     PriorityQueue.prototype.change_key = function(key, val) {
       var c, cmp;
-      c = this._index[key];
-      if (c == null) {
-        throw new Error("Key " + key + " not found");
-      }
-      cmp = this._cmp(val, this._i_get_pri(c));
-      this._i_set_pri(c, val);
-      if (cmp > 0) {
-        console.log("bubble down V");
-        return this._bubble_down(c);
+      if ((c = this._index[key]) != null) {
+        cmp = this._cmp(val, this._i_get_pri(c));
+        this._i_set_pri(c, val);
+        if (cmp > 0) {
+          this._bubble_down(c);
+        } else {
+          this._bubble_up(c);
+        }
+        return true;
       } else {
-        console.log("bubble up!");
-        return this._bubble_up(c);
+        return false;
       }
     };
 

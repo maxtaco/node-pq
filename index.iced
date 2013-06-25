@@ -96,15 +96,12 @@ exports.PriorityQueue = class PriorityQueue
   #---------------
 
   change_key : (key, val) ->
-    c = @_index[key]
-    if not c? then throw new Error "Key #{key} not found"
-    cmp = @_cmp val, @_i_get_pri c
-    @_i_set_pri c, val
-    if cmp > 0
-      console.log "bubble down V"
-      @_bubble_down c
-    else
-      console.log "bubble up!"
-      @_bubble_up c
+    if (c = @_index[key])?
+      cmp = @_cmp val, @_i_get_pri c
+      @_i_set_pri c, val
+      if cmp > 0 then @_bubble_down c
+      else @_bubble_up c
+      true
+    else false
 
 ##=============================================================
