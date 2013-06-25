@@ -14,6 +14,13 @@ make_el("valentina", 1);
 make_el("yando", 300);
 make_el("zombie", 200);
 
+function push_all(q) {
+  for (var k in elements) {
+    var val = elements[k];
+    q.enq(val);
+  }
+}
+
 describe('PriorityQueue()', function() {
   it('returns an new PriorityQueue', function() {
     expect(new PriorityQueue()).to.be.a(PriorityQueue);
@@ -49,13 +56,7 @@ describe('PriorityQueue()', function() {
 
     it('returns the top element of the queue', function() {
       var queue = new PriorityQueue();
-      queue.enq(elements.jano);
-      queue.enq(elements.valentina);
-      queue.enq(elements.zombie);
-      queue.enq(elements.fran);
-      queue.enq(elements.albert);
-      queue.enq(elements.georgi);
-      queue.enq(elements.frank);
+      push_all(queue);
       expect(queue.peek().key).to.be('fran');
     });
   });
@@ -70,19 +71,15 @@ describe('PriorityQueue()', function() {
 
     it('dequeues the top element of the queue', function() {
       var queue = new PriorityQueue();
-      queue.enq(elements.jano);
-      queue.enq(elements.valentina);
-      queue.enq(elements.zombie);
-      queue.enq(elements.fran);
-      queue.enq(elements.albert);
-      queue.enq(elements.frank);
-      queue.enq(elements.georgi);
-      queue.enq(elements.yando);
+      push_all(queue);
       expect(queue.deq().key).to.be('fran');
       expect(queue.deq().key).to.be('valentina');
       expect(queue.deq().key).to.be('zombie');
-      expect(queue.deq().key).to.match(/(jano|yando)/);
-      expect(queue.deq().key).to.match(/(jano|yanod)/);
+      var set = {};
+      set[queue.deq().key] = true;
+      set[queue.deq().key] = true;
+      expect(set.yando).to.be(true);
+      expect(set.jano).to.be(true);
       expect(queue.deq().key).to.be('frank');
       expect(queue.deq().key).to.be('georgi');
       expect(queue.deq().key).to.be('albert');
@@ -139,6 +136,14 @@ describe('PriorityQueue()', function() {
       queue.enq({ priority: 5 });
       expect(queue.peek()).to.be.eql({ priority: -1 });
       expect(queue.size()).to.be(4);
+    });
+
+    it('decreases keys properly', function () {
+      var queue = new PriorityQueue();
+      push_all(queue);
+      queue.decrease_key('yando',-3000);
+      expect(queue.deq().key).to.be('yando');
+      expect(queue.deq().key).to.be('fran');
     });
   });
 
