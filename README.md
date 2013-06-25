@@ -1,7 +1,7 @@
 # node-pq
 
 A Priority Queue for NodeJS in CoffeeScript.  It offers three major
-operations: `enq`, `deq`, and `decrease_key`.  You can use it to 
+operations: `enq`, `deq`, and `change_key`.  You can use it to 
 manage the nodes to visit in Dijkstra's algorithm.  By default,
 the minimum object is at the top of the heap, though you can change
 the ordering with your own comparitor function.
@@ -24,7 +24,7 @@ pq.peek()                                # returns { key : 'max', priority : 3 }
 pq.deq()                                 # returns { key : 'max', priority : 3 }
 pq.enq { key : 'max', priority : 3 }     # returns 1, the new size of the PQ
 pq.enq { key : 'blah', priority : 1 }    # returns 2, etc...
-pq.decrease_key 'max', -3                # returns null
+pq.change_key 'max', -3                  # returns null
 pq.deq()                                 # returns { key : 'max', priority : -3 }
 ```
 
