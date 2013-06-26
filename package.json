@@ -1,6 +1,6 @@
 {
   "name": "pq2",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Priority queue w/ decrease key operation, good for Dijkstra's algorithm",
   "author": "Max Krohn <themax@gmail.com>",
   "devDependencies": {

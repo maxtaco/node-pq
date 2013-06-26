@@ -57,6 +57,7 @@ describe('PriorityQueue()', function() {
     it('returns the top element of the queue', function() {
       var queue = new PriorityQueue();
       push_all(queue);
+      queue.check()
       expect(queue.peek().key).to.be('fran');
     });
   });
@@ -72,18 +73,24 @@ describe('PriorityQueue()', function() {
     it('dequeues the top element of the queue', function() {
       var queue = new PriorityQueue();
       push_all(queue);
+      queue.check()
       expect(queue.deq().key).to.be('fran');
+      queue.check()
       expect(queue.deq().key).to.be('valentina');
+      queue.check()
       expect(queue.deq().key).to.be('zombie');
       var set = {};
       set[queue.deq().key] = true;
       set[queue.deq().key] = true;
       expect(set.yando).to.be(true);
+      queue.check()
       expect(set.jano).to.be(true);
       expect(queue.deq().key).to.be('frank');
+      queue.check()
       expect(queue.deq().key).to.be('georgi');
       expect(queue.deq().key).to.be('albert');
       expect(queue.is_empty()).to.be(true);
+      queue.check()
     });
 
     it('not fails with only one element', function() {
@@ -104,9 +111,12 @@ describe('PriorityQueue()', function() {
       queue.enq({ priority: 5 });
       expect(queue.deq()).to.be.eql({ priority: -1 });
       expect(queue.deq()).to.be.eql({ priority: 0 });
+      queue.check()
       expect(queue.deq()).to.be.eql({ priority: 5 });
       expect(queue.deq()).to.be.eql({ priority: 100 });
+      queue.check()
       expect(queue.is_empty()).to.be(true);
+      queue.check()
     });
   });
 
@@ -143,14 +153,22 @@ describe('PriorityQueue()', function() {
       push_all(queue);
       queue.change_key('yando',-3000);
       expect(queue.deq().key).to.be('yando');
+      queue.check()
       expect(queue.deq().key).to.be('fran');
       queue.change_key('valentina', 1000000);
+      queue.check()
       expect(queue.deq().key).to.be('zombie');
+      queue.check()
       expect(queue.deq().key).to.be('jano');
+      queue.check()
       expect(queue.deq().key).to.be('frank');
+      queue.check()
       expect(queue.deq().key).to.be('georgi');
+      queue.check()
       expect(queue.deq().key).to.be('albert');
+      queue.check()
       expect(queue.deq().key).to.be('valentina');
+      queue.check()
       expect(queue.is_empty()).to.be(true);
     });
   });

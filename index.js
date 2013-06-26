@@ -156,6 +156,28 @@
       return this._elements[this._index[key]];
     };
 
+    PriorityQueue.prototype.check = function() {
+      return this._check(0);
+    };
+
+    PriorityQueue.prototype._check = function(i) {
+      var l, r;
+      l = this._lchild(i);
+      r = this._rchild(i);
+      if (l < this.size()) {
+        if ((this._i_cmp(i, l)) > 0) {
+          throw new Error("misordering at " + i + " v " + l);
+        }
+        this._check(l);
+      }
+      if (r < this.size()) {
+        if ((this._i_cmp(i, r)) > 0) {
+          throw new Error("misordering at " + i + " v " + r);
+        }
+        return this._check(r);
+      }
+    };
+
     PriorityQueue.prototype.change_key = function(key, val) {
       var c, cmp;
       if ((c = this._index[key]) != null) {

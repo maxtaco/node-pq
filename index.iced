@@ -95,6 +95,22 @@ exports.PriorityQueue = class PriorityQueue
 
   #---------------
 
+  check : () -> @_check 0
+
+  #---------------
+
+  _check : (i) ->
+    l = @_lchild i
+    r = @_rchild i
+    if l < @size()
+      if (@_i_cmp i, l) > 0 then throw new Error "misordering at #{i} v #{l}"
+      @_check l
+    if r < @size()
+      if (@_i_cmp i, r) > 0 then throw new Error "misordering at #{i} v #{r}"
+      @_check r
+
+  #---------------
+
   change_key : (key, val) ->
     if (c = @_index[key])?
       cmp = @_cmp val, @_i_get_pri c
