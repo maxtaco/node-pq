@@ -1,4 +1,3 @@
-
 ##=============================================================
 
 exports.PriorityQueue = class PriorityQueue
@@ -13,7 +12,7 @@ exports.PriorityQueue = class PriorityQueue
   constructor : (opts = {}) ->
     {cmp, get_key, get_pri, set_pri} = opts
     @_cmp = cmp if cmp?
-    @_get_key = key if key?
+    @_get_key = get_key if get_key?
     @_set_pri = set_pri if set_pri?
     @_get_pri = get_pri if get_pri?
     @_elements = []
